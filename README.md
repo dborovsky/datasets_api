@@ -1,24 +1,69 @@
-# README
+# Datasets API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+API that allows importing datasets and searching through them.
 
-Things you may want to cover:
+## Tech Stack
 
-* Ruby version
+- Ruby 3.3.11
+- Rails 8.1
+- PostgreSQL 16
+- Docker Compose
 
-* System dependencies
+## Local Setup
 
-* Configuration
+**Requirements:** Docker, Ruby 3.3.11
 
-* Database creation
+```bash
+git clone <repo-url>
+cd datasets_api
+bundle install
+docker compose up -d
+bin/rails db:create db:migrate
+bin/rails server
+```
 
-* Database initialization
+## API
 
-* How to run the test suite
+### Import datasets
 
-* Services (job queues, cache servers, search engines, etc.)
+```
+POST /datasets/import
+Content-Type: application/json
+```
 
-* Deployment instructions
+Accepts an array of dataset objects and handles incorrect data.
 
-* ...
+**Example request:**
+```json
+[
+  {
+    "external_id": "dataset-1",
+    "title": "Climate Change Data",
+    "authors": ["John Doe", "Jane Smith"],
+    "keywords": ["climate", "temperature"]
+  }
+]
+```
+
+**Example response:**
+```json
+{
+  "imported": 1,
+  "failed": 0,
+  "duplicates": 0
+}
+```
+
+### Search datasets
+
+```
+GET /datasets?q=climate
+```
+
+Searches by title and keywords (case-insensitive).
+
+## Tests
+
+```bash
+bundle exec rspec
+```
