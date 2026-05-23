@@ -16,6 +16,7 @@ API that allows importing datasets and searching through them.
 ```bash
 git clone <repo-url>
 cd datasets_api
+cp .env.example .env
 bundle install
 docker compose up -d
 bin/rails db:create db:migrate
